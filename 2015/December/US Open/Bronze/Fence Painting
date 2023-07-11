@@ -1,0 +1,36 @@
+import java.io.*;
+import java.util.*;
+
+public class December2015_FencePainting {
+	public static void main(String[] args) throws IOException {
+        Scanner in = new Scanner (Scanner.in);
+
+        int a = in.nextInt(),
+            b = in.nextInt(),
+            c = in.nextInt(),
+            d = in.nextInt();
+        int output;
+        
+        if (c > a) {
+        	if (d > b) {
+            	output = d - a;
+            }
+            
+            else {
+            	output = b - a;
+            }
+        }
+        
+        else {
+        	if (d > b) {
+        		output = d - c;
+        	}
+        	
+        	else {
+        		output = b - c;
+        	}
+        }
+        
+        System.out.println(output); 
+    }
+}
