@@ -1,0 +1,87 @@
+import java.util.*;
+import java.io.*;
+
+public class USOpen2023_MooLanguage {
+	public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        
+        String output = "";
+        int count = 0;
+
+        int T = s.nextInt();
+        for (int Y = 0; Y < T; Y++) {
+            int nounNum = s.nextInt(), 
+                commaNum = s.nextInt(),
+                periodNum = s.nextInt();
+            
+            Stack<String> nouns = new Stack<String>(),
+                          transitive = new Stack<String>(),
+                          intransitive = new Stack<String>(),
+                          conjunction = new Stack<String>();
+            
+            for (int i = 0; i < nounNum; i++) {
+                String word = s.next(),
+                       type = s.next();
+                
+                switch(type) {
+                    case "noun":
+                        nouns.push(word);
+                        break;
+                    case "transitive-verb":
+                        transitive.push(word);
+                        break;
+                    case "intransitive-verb":
+                        intransitive.push(word);
+                        break;
+                    case "conjunction":
+                        conjunction.push(word);
+                        break;
+                }
+            }
+            
+            
+            while (periodNum > 0 && nouns.size() > 0 && (intransitive.size() > 0 || transitive.size() > 0)) {
+            	if (transitive.size() > 0 && nouns.size() > 1) {
+            		output += " " + nouns.pop() + " " + transitive.pop() + " " + nouns.pop();
+            		
+            		count += 3;
+            		
+            		if (conjunction.size() > 0 && periodNum != 0 && nouns.size() > 0 && (intransitive.size() > 0 || transitive.size() > 0)) {
+            			output += " " + conjunction.pop() + " ";
+            			
+            			count++;
+            			
+            			if (transitive.size() > 0 && nouns.size() > 1) {
+            				output += " " + nouns.pop() + " " + transitive.pop() + " " + nouns.pop() + ".";
+            				periodNum--;
+            				
+            				count += 3;
+            			}
+            			
+            			else if (intransitive.size() > 0) {
+                    		output += " " + nouns.pop() + " " + intransitive.pop() + ".";
+                    		periodNum--;
+                    		
+                    		count += 2;
+                    	}
+            		}
+            		
+            		else {
+            			output += ".";
+            			periodNum--;
+            		}
+            	}
+            	
+            	else if (intransitive.size() > 0) {
+            		output += " " + nouns.pop() + " " + intransitive.pop() + ".";
+            		periodNum--;
+            		
+            		count += 2;
+            	}
+            }
+            
+            System.out.println(count);
+            System.out.println(output);
+        }
+    }
+}
